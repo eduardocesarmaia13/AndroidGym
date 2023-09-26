@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, Image } from 'react-native';
+import {
+    View,
+    TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    Text,
+    Image,
+} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -7,109 +14,89 @@ const Stack = createStackNavigator();
 
 const Cadastro = ({ navigation }) => {
     const [form, setForm] = useState({
-        matricula: null,
-        nome: null,
-        dataNas: null,
-        cpf: null,
-        peso: null,
-        altura: null
+        matricula: '',
+        nome: '',
+        dataNas: '',
+        cpf: '',
+        peso: '',
+        altura: '',
     });
 
     const handleGravar = () => {
-        alert('NA PRÓXIMA AULA IREMOS GRAVAR OS REGISTROS EM UMA BASE DE DADOS!!!');
+        // Implemente a lógica para gravar os registros em uma base de dados
+        alert('Registro gravado com sucesso!');
     };
 
     return (
-        <View style={[styles.container, { backgroundColor: 'lightblue' }]}>
+        <View style={styles.container}>
             <Image
-                style={styles.imagem}
+                style={styles.logo}
                 resizeMode="center"
                 source={require('./imagens/GoldsGym.png')}
             />
-            <Text style={[styles.label1, { marginBottom: 20, textAlign: 'center' }]}>
-                SISTEMA DE CONTROLE DOS USUARIOS DA ACADEMIA
+            <Text style={styles.title}>
+                SISTEMA DE CONTROLE DOS USUÁRIOS DA ACADEMIA
             </Text>
 
-            {/* Input Container */}
-            <View style={styles.inputContainer1}>
-                <View style={styles.inputGroup}>
-                    <Text style={styles.label2}>Matrícula : </Text>
+            <View style={styles.form}>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Matrícula:</Text>
                     <TextInput
-                        // AJUSTE DO TAMANHO DA LARGURA DO TEXTINPUT
-                        style={[styles.input, { width: 100 }]}
+                        style={styles.input}
                         value={form.matricula}
-                        onChangeText={(ev) => setForm({
-                            ...form,
-                            matricula: ev.value
-                        })}
+                        onChangeText={(text) => setForm({ ...form, matricula: text })}
                     />
                 </View>
-                <View style={styles.inputGroup}>
-                    <Text style={styles.label2}>  Nome : </Text>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Nome:</Text>
                     <TextInput
-                        style={[styles.input, { width: 400 }]}  // AJUSTE DO TAMANHO DA LARGURA DO TEXTINPUT
+                        style={styles.input}
                         value={form.nome}
-                        onChangeText={(ev) => setForm({
-                            ...form,
-                            nome: ev.value
-                        })}
+                        onChangeText={(text) => setForm({ ...form, nome: text })}
                     />
                 </View>
-            </View>
-            <View style={styles.inputContainer1}>
-                <View style={styles.inputGroup}>
-                    <Text style={styles.label2}>Data Nasc: </Text>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Data de Nascimento:</Text>
                     <TextInput
-                        // AJUSTE DO TAMANHO DA LARGURA DO TEXTINPUT
-                        style={[styles.input, { width: 100 }]}
+                        style={styles.input}
                         value={form.dataNas}
-                        onChangeText={(ev) => setForm({
-                            ...form,
-                            dataNas: ev.value
-                        })}
+                        onChangeText={(text) => setForm({ ...form, dataNas: text })}
                     />
                 </View>
-                <View style={styles.inputGroup}>
-                    <Text style={styles.label2}> CPF: </Text>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>CPF:</Text>
                     <TextInput
-                        style={[styles.input, { width: 400 }]}  // AJUSTE DO TAMANHO DA LARGURA DO TEXTINPUT
+                        style={styles.input}
                         value={form.cpf}
-                        onChangeText={(ev) => setForm({
-                            ...form,
-                            cpf: ev.value
-                        })}
+                        onChangeText={(text) => setForm({ ...form, cpf: text })}
                     />
                 </View>
-            </View>
-            <View style={styles.inputContainer1}>
-                <View style={styles.inputGroup}>
-                    <Text style={styles.label2}>Peso : </Text>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Peso:</Text>
                     <TextInput
-                        // AJUSTE DO TAMANHO DA LARGURA DO TEXTINPUT
-                        style={[styles.input, { width: 100 }]}
+                        style={styles.input}
                         value={form.peso}
-                        onChangeText={(ev) => setForm({
-                            ...form,
-                            peso: ev.value
-                        })}
+                        onChangeText={(text) => setForm({ ...form, peso: text })}
                     />
                 </View>
-                <View style={styles.inputGroup}>
-                    <Text style={styles.label2}> Altura: </Text>
+
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Altura:</Text>
                     <TextInput
-                        style={[styles.input, { width: 400 }]}  // AJUSTE DO TAMANHO DA LARGURA DO TEXTINPUT
+                        style={styles.input}
                         value={form.altura}
-                        onChangeText={(ev) => setForm({
-                            ...form,
-                            altura: ev.value
-                        })}
+                        onChangeText={(text) => setForm({ ...form, altura: text })}
                     />
                 </View>
             </View>
-            {/*FLEXIBILIDADE DA POSIÇÃO DO BOTÃO */}
-            <View style={styles.ButtonContainer} >
-                <Button title="Gravar" onPress={handleGravar} />
-            </View>
+
+            <TouchableOpacity style={styles.button} onPress={handleGravar}>
+                <Text style={styles.buttonText}>Gravar</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -117,55 +104,55 @@ const Cadastro = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        backgroundColor: '#F5F5F5',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    label1: {
-        color: 'blue',
-        fontSize: 20,
-        fontFamily: 'Arial',
+    logo: {
+        width: 100,
+        height: 100,
+        marginBottom: 20,
+    },
+    title: {
+        fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    label2: {
+        marginBottom: 20,
         color: 'blue',
+    },
+    form: {
+        width: '80%', // Definindo a largura do formulário
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    label: {
+        flex: 1, // Distribui o espaço para o rótulo
         fontSize: 18,
-        fontFamily: 'Arial',
         fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    inputContainer1: {
-        flexDirection: 'row',    // Arrange input groups horizontally
-        alignItems: 'center',    // Align input groups vertically within the container
-        marginBottom: 10,
-    },
-    inputGroup: {
-        //flex: 1,                 // Equal flex to distribute the space evenly
-        flexDirection: 'row',    // Arrange label and input horizontally
-        alignItems: 'center',    // Align label and input vertically
-        marginBottom: 10,
+        marginRight: 10,
     },
     input: {
-        flex: 1,                 // Take up remaining space
+        flex: 2, // Distribui o espaço para o campo de entrada
         padding: 10,
         fontSize: 18,
-        fontWeight: 'bold',
         borderWidth: 1,
         borderColor: '#ccc',
         backgroundColor: 'white',
-        textAlign: 'left',
-        marginBottom: 10,
+        borderRadius: 10,
     },
-    imagem: {
-        alignSelf: 'stretch',
-        height: 70,
-        marginTop: 5,
+    button: {
+        backgroundColor: 'blue',
+        padding: 10,
+        borderRadius: 10,
+        marginTop: 20,
     },
-    ButtonContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 600,
-        // marginBottom: 1, //ADD MARGEM PARA O BOTÃI
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
 });
 
