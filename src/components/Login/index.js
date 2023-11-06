@@ -7,7 +7,7 @@ import { useLogin } from "./hooks/useLogin";
 import { Button } from "../shared/forms/Button";
 
 export default function Login() {
-  const { form, handleChangeEmail, handleChangePassword, handleSubmitAuth } =
+  const { form, handleChangeEmail, handleChangePassword, handleSubmitAuth, isLoading } =
     useLogin();
 
   return (
@@ -46,6 +46,8 @@ export default function Login() {
             text="Entrar na plataforma"
             style={formStyles.btnSubmit}
             hoverStyle={formStyles.hoverBtnSubmit}
+            onPress={handleSubmitAuth}
+            isLoading={isLoading}
           />
         </View>
       </View>

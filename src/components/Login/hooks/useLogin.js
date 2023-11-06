@@ -1,12 +1,12 @@
 import { useState } from "react";
-// import { useAuthentication } from "../../../services/authentication";
+import { useAuthentication } from "../../../services/authentication";
 
 export function useLogin() {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-  // const { mutateAsync: authentication, isLoading } = useAuthentication();
+  const { mutateAsync: authentication, isLoading } = useAuthentication();
 
   const handleChangeEmail = (text) => {
     setForm({
@@ -26,10 +26,13 @@ export function useLogin() {
     authentication(form);
   };
 
+  console.log(isLoading)
+
   return {
     form,
     handleChangePassword,
     handleChangeEmail,
-    handleSubmitAuth
+    handleSubmitAuth,
+    isLoading
   };
 }

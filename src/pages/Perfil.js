@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Profile from "../components/Profile";
 import { ScrollView, View, Text, Image } from "react-native";
 import { styleLayout } from "./styles/layout";
-import { users } from "../constants/users";
+import { useGetUser } from "../services/users/get";
 
-export default function Perfil({ navigation }) {
+export default function Perfil({ navigation, route }) {
+  const userIdCurrent = route.params.userId;
+  const { data, isFetching } = useGetUser({
+    id: userIdCurrent,
+  });
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    if (data) setUser(data[0]);
+  }, [isFetching]);
+
   return (
     <View style={[styleLayout.container]}>
       <View onTouchStart={() => navigation.goBack()}>
@@ -17,7 +27,7 @@ export default function Perfil({ navigation }) {
         </Text>
       </View>
       <ScrollView>
-        <Profile data={users[0]} />
+        <Profile navigation={navigation} data={user} isUpdate={true} id={userIdCurrent} />
       </ScrollView>
     </View>
   );

@@ -1,4 +1,4 @@
-import { EMAIL_VALID, ONLY_SPACES } from "../../../src/constants/regex";
+import { CEP_VALID, CPF_VALID, EMAIL_VALID, ONLY_SPACES } from "../../../src/constants/regex";
 import * as crypto from "crypto";
 
 export function Users() {
@@ -15,6 +15,7 @@ export function Users() {
     mobile: null,
     password: null,
     recovery: null,
+    registration: null,
     cep: null,
     is_admin: null,
     status: null,
@@ -92,6 +93,9 @@ export function Users() {
   };
 
   this.setCep = (cep) => {
+    if (typeof cep != "string" || !CEP_VALID.test(cep))
+    throw new Error("O CEP inserido não é válido");
+
     this.attributes.cep = cep;
   };
 
@@ -103,7 +107,10 @@ export function Users() {
     if (typeof password != "string" || password.length < 5)
       throw new Error("O password inserido não é válido");
 
-    this.attributes.password = crypto.createHash("sha1").update(password).digest("hex");
+    this.attributes.password = crypto
+      .createHash("sha1")
+      .update(password)
+      .digest("hex");
   };
 
   this.getCPF = () => {
@@ -111,7 +118,7 @@ export function Users() {
   };
 
   this.setCPF = (cpf) => {
-    if (typeof cpf != "string" || cpf.length < 14)
+    if (typeof cpf != "string" || !CPF_VALID.test(cpf))
       throw new Error("O CPF inserido não é válido");
 
     this.attributes.cpf = cpf;
@@ -155,12 +162,23 @@ export function Users() {
     this.attributes.height = height;
   };
 
-  this.getHeight = () => {
+  this.getWeight = () => {
     return this.attributes.weight;
   };
 
   this.setWeight = (weight) => {
     this.attributes.weight = weight;
+  };
+
+  this.getRegistration = () => {
+    return this.attributes.registration;
+  };
+
+  this.setRegistration = (registration) => {
+    if (typeof registration != "string" || ONLY_SPACES.test(registration))
+      throw new Error("A palavra de recuração inserida não é válida");
+
+    this.attributes.registration = registration;
   };
 
   this.getRecovery = () => {
@@ -179,9 +197,6 @@ export function Users() {
   };
 
   this.setCreatedAt = (createdAt) => {
-    if (typeof createdAt != "string" || ONLY_SPACES.test(createdAt))
-      throw new Error("A data inserida não é válida");
-
     this.attributes.created_at = createdAt;
   };
 
@@ -190,9 +205,6 @@ export function Users() {
   };
 
   this.setUpdatedAt = (updateddAt) => {
-    if (typeof updateddAt != "string" || ONLY_SPACES.test(updateddAt))
-      throw new Error("A data inserida não é válida");
-
     this.attributes.updated_at = updateddAt;
   };
 }

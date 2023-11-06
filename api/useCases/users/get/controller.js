@@ -1,12 +1,12 @@
 import { yupOptions } from "../../../config/yup";
 import { BAD_REQUEST, INTERNAL_ERROR, OK } from "../../../constants/status";
-import { postUsersSchema } from "./dto";
-import { PostAuthenticationsUseCase } from "./useCase";
+import { getUsersSchema } from "./dto";
+import { GetUsersUseCase } from "./useCase";
 
-export function PostAuthenticationsController() {
+export function GetUsersController() {
   this.handle = async (request, response) => {
     try {
-      const postUsecase = new PostAuthenticationsUseCase();
+      const getUsecase = new GetUsersUseCase();
 
       const { body, query, params } = request;
       const payload = {
@@ -16,10 +16,10 @@ export function PostAuthenticationsController() {
       };
       delete params[0];
 
-      await postUsersSchema.validate(payload, yupOptions);
+      await getUsersSchema.validate(payload, yupOptions);
 
-      const resp = await postUsecase.execute(payload);
-
+      const resp = await getUsecase.execute(payload);
+  
       return response.status(OK).json(resp);
     } catch (yupErrors) {
       const err = {

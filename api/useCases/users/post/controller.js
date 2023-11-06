@@ -1,5 +1,5 @@
 import { yupOptions } from "../../../config/yup";
-import { INTERNAL_ERROR, OK } from "../../../constants/status";
+import { BAD_REQUEST, INTERNAL_ERROR, OK } from "../../../constants/status";
 import { postUsersSchema } from "./dto";
 import { PostUsersUseCase } from "./useCase";
 
@@ -22,9 +22,15 @@ export function PostUsersController() {
 
       return response.status(OK).json(resp);
     } catch (yupErrors) {
-      const err = yupErrors.errors ? yupErrors.errors : yupErrors;
+      const err = {
+        message: yupErrors.errors ? yupErrors.errors : String(yupErrors),
+        code: yupErrors.errors ? BAD_REQUEST : yupErrors.code,
+      };
 
-      return response.status(err.code ?? INTERNAL_ERROR).json(err.message);
+      console.log(yupErrors);
+      return response.status(err.code ?? INTERNAL_ERROR).json({
+        errors: err.message,
+      });
     }
   };
 }

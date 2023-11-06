@@ -1,12 +1,12 @@
 import { yupOptions } from "../../../config/yup";
-import { INTERNAL_ERROR, OK } from "../../../constants/status";
-import { postUsersSchema } from "./dto";
-import { PostUsersUseCase } from "./useCase";
+import { BAD_REQUEST, INTERNAL_ERROR, OK } from "../../../constants/status";
+import { putUsersSchema } from "./dto";
+import { PutUsersUseCase } from "./useCase";
 
-export function PostUsersController() {
+export function PutUsersController() {
   this.handle = async (request, response) => {
     try {
-      const postUsecase = new PostUsersUseCase();
+      const putUsecase = new PutUsersUseCase();
 
       const { body, query, params } = request;
       const payload = {
@@ -16,15 +16,21 @@ export function PostUsersController() {
       };
       delete params[0];
 
-      await postUsersSchema.validate(payload, yupOptions);
+      await putUsersSchema.validate(payload, yupOptions);
 
-      const resp = await postUsecase.execute(payload);
+      const resp = await putUsecase.execute(payload);
 
       return response.status(OK).json(resp);
     } catch (yupErrors) {
-      const err = yupErrors.errors ? yupErrors.errors : yupErrors;
+      const err = {
+        message: yupErrors.errors ? yupErrors.errors : String(yupErrors),
+        code: yupErrors.errors ? BAD_REQUEST : yupErrors.code,
+      };
 
-      return response.status(err.code ?? INTERNAL_ERROR).json(err.message);
+      console.log(err);
+      return response.status(err.code ?? INTERNAL_ERROR).json({
+        errors: err.message,
+      });
     }
   };
 }

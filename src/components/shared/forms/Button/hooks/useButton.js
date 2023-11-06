@@ -4,7 +4,8 @@ export function useButton({ style = {}, hoverStyle = {} }) {
   const [styleCurrent, setStyleCurrent] = useState(style);
 
   const handleHover = () => {
-    setStyleCurrent(hoverStyle);
+    if (Object.keys(hoverStyle).length > 0) setStyleCurrent(hoverStyle);
+    else setStyleCurrent(style);
 
     if (styleCurrent == hoverStyle) return;
 

@@ -38,16 +38,17 @@ const options = {
   type: "*/application",
 };
 
-app.use("/api", routes);
 app.use(cors());
 app.options("*", cors());
 app.set("trust proxy", "loopback, linklocal, uniquelocal");
 app.enable("trust proxy");
 // Definindo json como padrão de leitura e escrita
-app.use(bodyParser.json());
 app.use(bodyParser.raw(options));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(useragent.express());
+
+app.use("/api", routes);
 
 app.listen(PORT, () =>
   console.log(`API listening at http://localhost:${PORT}`)

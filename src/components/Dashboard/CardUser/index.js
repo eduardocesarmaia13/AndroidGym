@@ -13,6 +13,7 @@ export default function CardUser({
   gender,
   navigation,
 }) {
+
   return (
     <View style={styleLayout.content}>
       <View style={styleLayout.box}>
@@ -38,13 +39,13 @@ export default function CardUser({
         <View style={styleLayout.group}>
           <Text style={styleLayout.title}>
             {`Idade: `}
-            <Text style={styleLayout.text}>{convertDateBr(age)}</Text>
+            <Text style={styleLayout.text}>{convertDateBr(String(age).split("T")[0])}</Text>
           </Text>
         </View>
         <View style={styleLayout.group}>
           <Text style={styleLayout.title}>
             {`Peso: `}
-            <Text style={styleLayout.text}>{weight}</Text>
+            <Text style={styleLayout.text}>{`${weight} Kg`}</Text>
           </Text>
         </View>
       </View>
@@ -52,7 +53,7 @@ export default function CardUser({
         <View style={styleLayout.group}>
           <Text style={styleLayout.title}>
             {`Altura: `}
-            <Text style={styleLayout.text}>{height}</Text>
+            <Text style={styleLayout.text}>{`${height} Cm`}</Text>
           </Text>
         </View>
         <View

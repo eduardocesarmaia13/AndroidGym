@@ -2,49 +2,54 @@ import { BAD_REQUEST } from "../../../constants/status";
 import { Users } from "../../../database/entities/users";
 import { BaseModel } from "../../../database/utils/baseModel";
 
-export function PostUsersUseCase() {
-  this.execute = async ({ email, cpf, ...payload }) => {
-    const model = await BaseModel();
+export function PutUsersUseCase() {
+  this.execute = async ({ id, ...where }) => {
+    const model = new BaseModel();
     const users = new Users();
 
-    const foundUserWithEmail = await model.findFirst(users, {
-      email,
-    });
+    const foundUser = await model.findAll(users);
 
-    const foundUserWithCPF = await model.findFirst(users, {
-      cpf,
-    });
-
-    if (foundUserWithEmail)
+    if (
+      await foundUser.find(
+        (user) => user.getEmail() == where.email && user.getId() != id
+      )
+    )
       throw {
         message: "O e-mail já está sendo utilizado",
         code: BAD_REQUEST,
       };
 
-    if (foundUserWithCPF)
+    if (
+      await foundUser.find((user) => user.getCPF() == where.cpf && user.getId() != id)
+    )
       throw {
         message: "O CPF já está sendo utilizado",
         code: BAD_REQUEST,
       };
 
-    users.setName(payload.name);
-    users.setCPF(payload.cpf);
-    users.setGender(payload.gender);
-    users.setCep(payload.cep);
-    users.setEmail(payload.email);
-    users.setIsAdmin(false);
-    users.setMobile(payload.mobile);
-    users.setPassword(payload.password);
-    users.setStatus(payload.status);
-    users.setHeight(payload.height);
-    users.setWeight(payload.weight);
-    users.setBirthdate(payload.birthdate);
+    const usersData = new Users();
+    if (where.name) usersData.setName(where.name);
+    if (where.cpf) usersData.setCPF(where.cpf);
+    if (where.gender) usersData.setGender(where.gender);
+    if (where.cep) usersData.setCep(where.cep);
+    if (where.email) usersData.setEmail(where.email);
 
-    const userId = await model.insert(users);
+    usersData.setIsAdmin(false);
+    if (where.mobile) usersData.setMobile(where.mobile);
+    if (where.password) usersData.setPassword(where.password);
+    if (where.status) usersData.setStatus(where.status);
+    if (where.registration) usersData.setRegistration(where.registration);
+    if (where.height) usersData.setHeight(where.height);
+    if (where.weight) usersData.setWeight(where.weight);
+    if (where.birthdate) usersData.setBirthdate(where.birthdate);
+
+    await model.update(usersData, {
+      id,
+    });
 
     return {
       succces: "Usuário criado com sucesso",
-      user: userId,
+      id,
     };
   };
 }

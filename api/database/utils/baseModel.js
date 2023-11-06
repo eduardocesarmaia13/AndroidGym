@@ -2,7 +2,6 @@ import { debbug } from "../../../src/helpers/debbug";
 import Database from "../../config/database";
 import { BaseMappers } from "./baseMappers";
 
-
 export function BaseModel() {
   /**
    * @method insert O método responsável pela a inserção de dados.
@@ -15,7 +14,7 @@ export function BaseModel() {
     try {
       const pgAdmin = await Database();
 
-      const values = Object.fromEntries(
+      const values = await Object.fromEntries(
         Object.entries(entity.attributes).filter(
           ([columnName, columnValue]) => columnValue != null
         )
@@ -26,7 +25,7 @@ export function BaseModel() {
         typeof columnValue == "string" ? `'${columnValue}'` : columnValue
       );
 
-      const data = await pgAdmin.query(
+      await pgAdmin.query(
         `INSERT INTO ${entity.table}(${columsIndex.join(
           ","
         )}) VALUES (${columsValues.join(",")});`
@@ -37,6 +36,7 @@ export function BaseModel() {
       pgAdmin.release();
       return foundUser.id;
     } catch (err) {
+      console.log(err);
       debbug(err);
       throw new Error(err);
     }
@@ -54,15 +54,17 @@ export function BaseModel() {
     try {
       const pgAdmin = await Database();
 
-      const matrizAttributesFiltered = Object.entries(entity).filter(
-        ([index, value]) => !!value
+      const matrizAttributesFiltered = Object.entries(entity.attributes).filter(
+        ([index, value]) => value != null || value != undefined
       );
       const queryString = Object.entries(where).map(
         ([index, value]) =>
-          `${index}=${typeof value == "string" ? `'${value}'` : value}`
+          `${index}=${
+            typeof value == "string" && index != "id" ? `'${value}'` : value
+          }`
       );
 
-      const data = await pgAdmin.query(
+      await pgAdmin.query(
         `UPDATE ${entity.table} SET ${matrizAttributesFiltered.map(
           ([index, value]) =>
             `${index}=${typeof value == "string" ? `'${value}'` : value}`
@@ -70,8 +72,8 @@ export function BaseModel() {
       );
 
       pgAdmin.release();
-      return data.rows[0].id;
     } catch (err) {
+      console.log(err);
       debbug(err);
       throw new Error(err);
     }
@@ -119,7 +121,7 @@ export function BaseModel() {
     try {
       const pgAdmin = await Database();
 
-      const queryString = Object.entries(where)
+      const queryString = Object.entries(where ?? {})
         .filter(
           ([columnName, columnValue]) =>
             columnValue != null && columnValue != undefined
@@ -132,7 +134,9 @@ export function BaseModel() {
       const data = await pgAdmin.query(
         `SELECT ${!!columns ? columns.join(",") : "*"} FROM ${
           entity.table
-        } WHERE ${queryString.join(" AND ") ?? "1=1"} ${orders ?? ""}`
+        } WHERE ${queryString.length > 0 ? queryString.join(" AND ") : "1=1"} ${
+          orders ?? ""
+        }`
       );
 
       const mappers = new BaseMappers();
@@ -159,15 +163,22 @@ export function BaseModel() {
     try {
       const pgAdmin = await Database();
 
-      const queryString = Object.entries(where).map(
-        ([index, value]) =>
-          `${index}=${typeof value == "string" ? `'${value}'` : value}`
-      );
+      const queryString = Object.entries(where ?? {})
+        .filter(
+          ([label, whereString]) =>
+            whereString != null || whereString != undefined
+        )
+        .map(
+          ([index, value]) =>
+            `${index}=${typeof value == "string" ? `'${value}'` : value}`
+        );
 
       const data = await pgAdmin.query(
-        `SELECT ${columns.join(",")} FROM ${entity.table} WHERE ${
-          queryString ?? "1=1"
-        } ${orders ?? ""}`
+        `SELECT ${!!columns ? columns.join(",") : "*"} FROM ${
+          entity.table
+        } WHERE ${queryString.length > 0 ? queryString.join(" AND ") : "1=1"} ${
+          orders ?? ""
+        }`
       );
 
       const mappers = new BaseMappers();
@@ -175,6 +186,7 @@ export function BaseModel() {
       return await mappers.mapper(entity, data.rows);
     } catch (err) {
       debbug(err);
+      console.log(err);
       throw new Error(err);
     }
   };

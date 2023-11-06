@@ -1,4 +1,3 @@
-import { users } from "../../constants/users";
 import { Button } from "../shared/forms/Button";
 import BoxTimeOperation from "../shared/layout/BoxTimeOperation";
 import { BoxText } from "../shared/layout/boxText";
@@ -8,7 +7,7 @@ import { styleLayout } from "./style/layout";
 import { View, Text } from "react-native";
 
 export default function Dashboard({ navigation }) {
-  const { handleLoggout } = useDashboard();
+  const { handleLoggout, users } = useDashboard();
 
   return (
     <View>
@@ -30,7 +29,7 @@ export default function Dashboard({ navigation }) {
       <BoxTimeOperation />
       <View style={styleLayout.box}>
         <Text style={styleLayout.title}>{"Lista de usuários"}</Text>
-        <Text style={styleLayout.counter}>{`(0/${[].length})`}</Text>
+        <Text style={styleLayout.counter}>{`(${users.length})`}</Text>
       </View>
       <Text style={styleLayout.subtitle}>
         {"Acompanhe os clientes presentes na academia."}

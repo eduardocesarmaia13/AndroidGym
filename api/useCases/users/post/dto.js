@@ -14,7 +14,7 @@ export const postUsersSchema = object({
     .min(MIN_LENGHT_NAME, messages.name.min)
     .required(messages.name.required)
     .typeError(messages.name.required),
-  birthdate: date()
+  birthdate: string()
     .required(messages.birthdate.required)
     .typeError(messages.birthdate.valid),
   cpf: string()

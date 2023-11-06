@@ -5,7 +5,7 @@ import * as crypto from "crypto";
 
 export function PostAuthenticationsUseCase() {
   this.execute = async ({ email, password }) => {
-    const model = await BaseModel();
+    const model = new BaseModel();
     const users = new Users();
 
     const foundUser = await model.findFirst(users, {
@@ -19,9 +19,12 @@ export function PostAuthenticationsUseCase() {
         code: BAD_BUSINESS,
       };
 
+    const userData = foundUser.attributes;
+    delete userData["password"];
+
     return {
       succces: "Usuário criado com sucesso",
-      user: users.attributes,
+      user: userData,
     };
   };
 }

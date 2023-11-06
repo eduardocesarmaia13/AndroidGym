@@ -4,47 +4,42 @@ import { BaseModel } from "../../../database/utils/baseModel";
 
 export function PostUsersUseCase() {
   this.execute = async ({ email, cpf, ...payload }) => {
-    const model = await BaseModel();
+    const model = new BaseModel();
     const users = new Users();
 
-    const foundUserWithEmail = await model.findFirst(users, {
-      email,
-    });
+    const foundUser = await model.findAll(users);
 
-    const foundUserWithCPF = await model.findFirst(users, {
-      cpf,
-    });
-
-    if (foundUserWithEmail)
+    if (await foundUser.find((user) => user.getEmail() == email))
       throw {
         message: "O e-mail já está sendo utilizado",
         code: BAD_REQUEST,
       };
 
-    if (foundUserWithCPF)
+    if (await foundUser.find((user) => user.getCPF() == cpf))
       throw {
         message: "O CPF já está sendo utilizado",
         code: BAD_REQUEST,
       };
 
-    users.setName(payload.name);
-    users.setCPF(payload.cpf);
-    users.setGender(payload.gender);
-    users.setCep(payload.cep);
-    users.setEmail(payload.email);
-    users.setIsAdmin(false);
-    users.setMobile(payload.mobile);
-    users.setPassword(payload.password);
-    users.setStatus(payload.status);
-    users.setHeight(payload.height);
-    users.setWeight(payload.weight);
-    users.setBirthdate(payload.birthdate);
+    const usersData = new Users();
+    usersData.setName(payload.name);
+    usersData.setCPF(cpf);
+    usersData.setGender(payload.gender);
+    usersData.setCep(payload.cep);
+    usersData.setEmail(email);
+    usersData.setIsAdmin(false);
+    usersData.setMobile(payload.mobile);
+    usersData.setPassword(payload.password);
+    usersData.setStatus(payload.status);
+    usersData.setRegistration(`${new Date().getUTCFullYear()}-${foundUser.length}`);
+    usersData.setHeight(payload.height);
+    usersData.setWeight(payload.weight);
+    usersData.setBirthdate(payload.birthdate);
 
-    const userId = await model.insert(users);
+    await model.insert(usersData);
 
     return {
       succces: "Usuário criado com sucesso",
-      user: userId,
     };
   };
 }

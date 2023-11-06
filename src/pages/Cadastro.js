@@ -16,7 +16,7 @@ export default function Cadastro({ navigation }) {
         </Text>
       </View>
       <ScrollView>
-        <Profile />
+        <Profile navigation={navigation} />
       </ScrollView>
     </View>
   );

@@ -1,24 +1,21 @@
-import React, { useState } from "react";
-import { View } from "react-native";
+import React from "react";
+import { View, Text } from "react-native";
 import { styleLayout } from "./styles/layout";
 import { FormGroup } from "../shared/forms/FormGroup";
 import { Button } from "../shared/forms/Button";
 import { Select } from "../shared/forms/Select";
 import { convertDateBr } from "../../helpers/convertDateBr";
+import { FormGroupMask } from "../shared/forms/FormGroupMask";
+import { useProfile } from "./hooks/useProfile";
+import { When } from "../shared/utils/When";
+import { colors } from "../../styles/colors";
 
-export default function Profile({ navigation, data = {} }) {
-  const [form, setForm] = useState({
-    name: data.name ?? "",
-    birthdate: data.birthdate ?? "",
-    gender: data.gender ?? "",
-    cpf: data.cpf ?? "",
-    cep: data.cep ?? "",
-    email: data.email ?? "",
-    mobile: data.mobile ?? "",
-    height: data.height ??"",
-    weight: data.weight ?? "",
-    registration: data.registration ?? "",
-    password: data.password ?? "",
+export default function Profile({ navigation, data = {}, isUpdate, id }) {
+  const { handleSubmit, form, setForm, isLoading } = useProfile({
+    navigation,
+    data,
+    isUpdate,
+    id
   });
 
   return (
@@ -41,23 +38,36 @@ export default function Profile({ navigation, data = {} }) {
             ]}
             setValue={(text) => setForm({ ...form, gender: text })}
           />
-          <FormGroup
+          <FormGroupMask
             label="Data de nascimento"
             setValue={(text) => setForm({ ...form, birthdate: text })}
-            value={convertDateBr(form.birthdate)}
-            placeholder="000.000.000-00"
+            value={form.birthdate ? convertDateBr(form.birthdate) : ""}
+            placeholder="00/00/0000"
+            keyboardType="numeric"
+            mask={[/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
           />
-          <FormGroup
+          <FormGroupMask
             label="CPF"
             setValue={(text) => setForm({ ...form, cpf: text })}
             value={form.cpf}
+            keyboardType="numeric"
             placeholder="000.000.000-00"
-          />
-          <FormGroup
-            label="Matricula"
-            setValue={(text) => setForm({ ...form, registration: text })}
-            value={form.registration}
-            placeholder="00000-00"
+            mask={[
+              /\d/,
+              /\d/,
+              /\d/,
+              ".",
+              /\d/,
+              /\d/,
+              /\d/,
+              ".",
+              /\d/,
+              /\d/,
+              /\d/,
+              "-",
+              /\d/,
+              /\d/,
+            ]}
           />
           <View
             style={{
@@ -75,10 +85,10 @@ export default function Profile({ navigation, data = {} }) {
                 margimBottom: "20%",
                 width: "45%",
               }}
-              keyboardType='numeric'
+              keyboardType="numeric"
               label="Peso"
               setValue={(text) => setForm({ ...form, weight: text })}
-              value={form.weight}
+              value={String(form.weight)}
               placeholder="00.00 kg"
             />
             <FormGroup
@@ -87,24 +97,45 @@ export default function Profile({ navigation, data = {} }) {
                 marginBottom: "20%",
                 width: "45%",
               }}
-              keyboardType='numeric'
+              keyboardType="numeric"
               label="Altura"
               setValue={(text) => setForm({ ...form, height: text })}
-              value={form.height}
+              value={String(form.height)}
               placeholder="000 mts"
             />
           </View>
-          <FormGroup
+          <FormGroupMask
             label="CEP"
             value={form.cep}
             setValue={(text) => setForm({ ...form, cep: text })}
             placeholder="00000-000"
+            keyboardType="numeric"
+            mask={[/\d/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/]}
           />
-          <FormGroup
+          <FormGroupMask
             label="Celular"
             setValue={(text) => setForm({ ...form, mobile: text })}
             value={form.mobile}
             placeholder="(00) 0 0000-0000"
+            keyboardType="numeric"
+            mask={[
+              "(",
+              /\d/,
+              /\d/,
+              ")",
+              " ",
+              /\d/,
+              " ",
+              /\d/,
+              /\d/,
+              /\d/,
+              /\d/,
+              "-",
+              /\d/,
+              /\d/,
+              /\d/,
+              /\d/,
+            ]}
           />
           <FormGroup
             label="E-mail"
@@ -112,13 +143,30 @@ export default function Profile({ navigation, data = {} }) {
             value={form.email}
             placeholder="Digite seu melhor e-mail"
           />
+          <When isValid={!!form.registration}>
+            <FormGroupMask
+              label="Matricula"
+              value={form.registration}
+              placeholder="00000-00"
+            />
+          </When>
           <FormGroup
             label="Senha"
             setValue={(text) => setForm({ ...form, password: text })}
             value={form.password}
             placeholder="Senha (Min 6 caracteres)"
           />
-         {/* <Select
+          <Text style={{color: colors.white[700]}}>{'O mínimo são 4 caracteres para senha'}</Text>
+          <Select
+            label={"Selecione o status"}
+            value={form.status}
+            options={[
+              { label: "Regular", value: "REGULAR" },
+              { label: "Negativo", value: "NEGATIVO" },
+            ]}
+            setValue={(text) => setForm({ ...form, status: text })}
+          />
+          {/* <Select
             label={"Pacote"}
             options={[
               { label: "Musculação - 100", value: "MUSCULAÇÃO" },
@@ -131,7 +179,12 @@ export default function Profile({ navigation, data = {} }) {
         </View>
         {/*FLEXIBILIDADE DA POSIÇÃO DO BOTÃO */}
         <View style={styleLayout.formSubmit}>
-          <Button text={"Cadastrar"} style={styleLayout.btnSubmit} />
+          <Button
+            text={isUpdate ? "Atualizar" : "Cadastrar"}
+            style={styleLayout.btnSubmit}
+            onPress={handleSubmit}
+            isLoading={isLoading}
+          />
         </View>
       </View>
     </View>

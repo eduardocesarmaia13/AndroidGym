@@ -12,6 +12,7 @@ export function UsersSeeds() {
       usersEntity.setGender(user.gender);
       usersEntity.setPassword(user.password);
       usersEntity.setMobile(user.mobile);
+      usersEntity.setRegistration(user.registration);
       usersEntity.setCPF(user.cpf);
       usersEntity.setCep(user.cep);
       usersEntity.setStatus(user.status);

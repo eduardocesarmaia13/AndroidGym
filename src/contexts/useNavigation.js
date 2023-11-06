@@ -13,7 +13,7 @@ export default function NavigationProvider({ children }) {
     setUser(userData);
   };
 
-  const handleStep = (step, beforeScreen) => {
+  const handleStep = (step) => {
     if (step) {
       setStep(step);
     }

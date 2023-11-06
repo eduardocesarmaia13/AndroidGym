@@ -9,8 +9,8 @@ import {
 const MIN_LENGHT_NAME = 3;
 const MIN_LENGHT_PASSWORD = 5;
 
-export const putUsersSchema = object({
-  id: number().required(messages.id).typeError(messages.id),
+export const getUsersSchema = object({
+  id: number().nullable().typeError(messages.id),
   name: string()
     .min(MIN_LENGHT_NAME, messages.name.min)
     .nullable()
@@ -34,6 +34,7 @@ export const putUsersSchema = object({
     .matches(EMAIL_VALID, messages.email.valid),
   mobile: string().nullable().typeError(messages.mobile.required),
   password: string()
+    .min(MIN_LENGHT_PASSWORD, messages.password.min)
     .nullable()
     .typeError(messages.password.min),
   height: string().nullable().typeError(messages.height.invalid),
