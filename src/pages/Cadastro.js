@@ -6,7 +6,7 @@ import { styleLayout } from "./styles/layout";
 export default function Cadastro({ navigation }) {
   return (
     <View style={[styleLayout.container]}>
-      <View>
+      <View onTouchStart={() => navigation.goBack()}>
         <Image source={require("@public/icons/arrow-narrow-right.png")} />
       </View>
       <View>

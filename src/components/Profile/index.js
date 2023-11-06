@@ -4,21 +4,21 @@ import { styleLayout } from "./styles/layout";
 import { FormGroup } from "../shared/forms/FormGroup";
 import { Button } from "../shared/forms/Button";
 import { Select } from "../shared/forms/Select";
+import { convertDateBr } from "../../helpers/convertDateBr";
 
-export default function Profile({ navigation }) {
+export default function Profile({ navigation, data = {} }) {
   const [form, setForm] = useState({
-    nome: "",
-    dataNas: "",
-    sexo: "",
-    cpf: "",
-    cep: "",
-    email: "",
-    telefone: "",
-    peso: "",
-    altura: "",
-    matricula: "",
-    senha: "",
-    pacote: "",
+    name: data.name ?? "",
+    birthdate: data.birthdate ?? "",
+    gender: data.gender ?? "",
+    cpf: data.cpf ?? "",
+    cep: data.cep ?? "",
+    email: data.email ?? "",
+    mobile: data.mobile ?? "",
+    height: data.height ??"",
+    weight: data.weight ?? "",
+    registration: data.registration ?? "",
+    password: data.password ?? "",
   });
 
   return (
@@ -28,22 +28,23 @@ export default function Profile({ navigation }) {
         <View style={styleLayout.content}>
           <FormGroup
             label="Nome completo"
-            setValue={(text) => setForm({ ...form, nome: text })}
-            value={form.nome}
+            setValue={(text) => setForm({ ...form, name: text })}
+            value={form.name}
             placeholder="Digite o seu nome"
           />
           <Select
             label={"Selecione o sexo biológico"}
+            value={form.gender}
             options={[
               { label: "Masculino", value: "MASCULINO" },
               { label: "Feminino", value: "FEMININO" },
             ]}
-            setValue={(text) => setForm({ ...form, sexo: text })}
+            setValue={(text) => setForm({ ...form, gender: text })}
           />
           <FormGroup
             label="Data de nascimento"
-            setValue={(text) => setForm({ ...form, cpf: text })}
-            value={form.dataNas}
+            setValue={(text) => setForm({ ...form, birthdate: text })}
+            value={convertDateBr(form.birthdate)}
             placeholder="000.000.000-00"
           />
           <FormGroup
@@ -54,8 +55,8 @@ export default function Profile({ navigation }) {
           />
           <FormGroup
             label="Matricula"
-            setValue={(text) => setForm({ ...form, matricula: text })}
-            value={form.matricula}
+            setValue={(text) => setForm({ ...form, registration: text })}
+            value={form.registration}
             placeholder="00000-00"
           />
           <View
@@ -76,8 +77,8 @@ export default function Profile({ navigation }) {
               }}
               keyboardType='numeric'
               label="Peso"
-              setValue={(text) => setForm({ ...form, peso: text })}
-              value={form.peso}
+              setValue={(text) => setForm({ ...form, weight: text })}
+              value={form.weight}
               placeholder="00.00 kg"
             />
             <FormGroup
@@ -88,8 +89,8 @@ export default function Profile({ navigation }) {
               }}
               keyboardType='numeric'
               label="Altura"
-              setValue={(text) => setForm({ ...form, altura: text })}
-              value={form.altura}
+              setValue={(text) => setForm({ ...form, height: text })}
+              value={form.height}
               placeholder="000 mts"
             />
           </View>
@@ -113,10 +114,11 @@ export default function Profile({ navigation }) {
           />
           <FormGroup
             label="Senha"
+            setValue={(text) => setForm({ ...form, password: text })}
             value={form.password}
             placeholder="Senha (Min 6 caracteres)"
           />
-         <Select
+         {/* <Select
             label={"Pacote"}
             options={[
               { label: "Musculação - 100", value: "MUSCULAÇÃO" },
@@ -125,7 +127,7 @@ export default function Profile({ navigation }) {
               { label: "Capoeira - 100", value: "CAPOEIRA" },
             ]}
             setValue={(text) => setForm({ ...form, pacote: text })}
-          />
+          /> */}
         </View>
         {/*FLEXIBILIDADE DA POSIÇÃO DO BOTÃO */}
         <View style={styleLayout.formSubmit}>

@@ -5,8 +5,9 @@ export const styleLayout = StyleSheet.create({
   container: {
     backgroundColor: colors.black.default,
     minHeight: "100%",
+    paddingTop: "2%",
     paddingLeft: "3%",
-    paddingRight: "3%"
+    paddingRight: "3%",
   },
   box: {
     display: "flex",

@@ -6,6 +6,12 @@ export const styleLayout = StyleSheet.create({
     position: "relative",
     backgroundColor: colors.black.default,
   },
+  content: {
+    paddingBottom: "5%",
+    borderBottomWidth: 1,
+    borderBottomColor: colors.white[700],
+    marginBottom: "5%"
+  },
   form: {
     width: "100%",
   },

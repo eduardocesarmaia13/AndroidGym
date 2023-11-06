@@ -1,6 +1,7 @@
 export const colors = {
   black: {
     default: "#1A1A1D",
+    [700]: "#252528",
   },
   white: {
     default: "#FFFFFF",
@@ -15,5 +16,8 @@ export const colors = {
   },
   green: {
     default: "#1ABF70",
+  },
+  red: {
+    default: "#E6434D",
   },
 };

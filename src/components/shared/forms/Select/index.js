@@ -7,6 +7,7 @@ export function Select({
   label,
   options,
   setValue,
+  value,
   style: styleSelect,
   select = { style: (inputStyle = {}) },
 }) {
@@ -19,6 +20,7 @@ export function Select({
             inputIOS: { color: colors.white.default },
             inputAndroid: { color: colors.white.default },
           }}
+          value={value}
           onValueChange={setValue}
           placeholder={{
             label,

@@ -2,11 +2,14 @@ import React from "react";
 import { ScrollView, View, Text, Image } from "react-native";
 import Operation from "../components/Operation";
 import { styleLayout } from "./styles/layout";
+import { useNavigation } from "../contexts/useNavigation";
 
 export default function Funcionamento({ navigation }) {
+  const { handleBackScreen } = useNavigation();
+
   return (
     <View style={[styleLayout.container]}>
-      <View>
+      <View onTouchStart={() => handleBackScreen(navigation)}>
         <Image source={require("@public/icons/arrow-narrow-right.png")} />
       </View>
       <View>

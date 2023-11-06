@@ -1,4 +1,41 @@
+import React, { useState } from "react";
+
 export function useOperation() {
+  const [form, setForm] = useState({
+    segunda: {
+      abertura: "",
+      termino: "",
+    },
+    terca: {
+      abertura: "",
+      termino: "",
+    },
+    quarta: {
+      abertura: "",
+      termino: "",
+    },
+    quinta: {
+      abertura: "",
+      termino: "",
+    },
+    sexta: {
+      abertura: "",
+      termino: "",
+    },
+    sabado: {
+      abertura: "",
+      termino: "",
+    },
+    domingo: {
+      abertura: "",
+      termino: "",
+    },
+    default: {
+      abertura: "",
+      termino: "",
+    },
+  });
+
   const timeToClockSelect = () => {
     return [
       ...Array.from(Array(24).keys()).map((num) => {
@@ -19,6 +56,8 @@ export function useOperation() {
   };
 
   return {
-    timeToClockSelect
+    form,
+    timeToClockSelect,
+    setForm,
   };
 }

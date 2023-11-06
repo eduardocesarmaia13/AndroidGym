@@ -4,15 +4,29 @@ import usePersist from "react-native-persist-context";
 const NavigationContext = createContext({});
 
 export default function NavigationProvider({ children }) {
-  const [user, setUser, clearUser] = usePersist("appContext", null);
+  const [user, setUser, clearUser] = usePersist("appContext", {
+    seis: "",
+  });
   const [step, setStep] = useState("auth");
-  
+
   const handleUser = (userData) => {
     setUser(userData);
   };
 
+  const handleStep = (step, beforeScreen) => {
+    if (step) {
+      setStep(step);
+    }
+  };
+
+  const handleBackScreen = (navigation) => {
+    if (navigation.canGoBack()) navigation.goBack();
+    else navigation.navigate("Dashboard");
+  };
+
   const handleClearUser = () => {
     clearUser();
+    handleUser(null);
   };
 
   return (
@@ -21,7 +35,9 @@ export default function NavigationProvider({ children }) {
         user,
         handleUser,
         handleClearUser,
+        handleStep,
         step,
+        handleBackScreen,
       }}
     >
       {children}

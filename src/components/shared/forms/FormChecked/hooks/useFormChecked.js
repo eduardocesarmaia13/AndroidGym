@@ -1,6 +1,8 @@
-export function useFormChecked(){
+import React, { useState } from "react";
+import { styleLayout } from "../style";
 
-    return {
-        
-    }
+export function useFormChecked() {
+  const [checkedStyle, setCheckedStyle] = useState(styleLayout.checked);
+
+  return { checkedStyle };
 }
