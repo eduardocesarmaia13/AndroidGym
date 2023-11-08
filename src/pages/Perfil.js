@@ -6,14 +6,14 @@ import { useGetUser } from "../services/users/get";
 
 export default function Perfil({ navigation, route }) {
   const userIdCurrent = route.params.userId;
-  const { data, isFetching } = useGetUser({
+  const { data, isFetched } = useGetUser({
     id: userIdCurrent,
   });
   const [user, setUser] = useState();
 
   useEffect(() => {
     if (data) setUser(data[0]);
-  }, [isFetching]);
+  }, [isFetched]);
 
   return (
     <View style={[styleLayout.container]}>

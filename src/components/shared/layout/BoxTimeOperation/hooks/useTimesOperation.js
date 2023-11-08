@@ -25,17 +25,7 @@ export function useTimesOperation(timesOperation) {
 
     const { hours } = dateFiltered;
 
-    if (!hours || !hours.opened || !hours.closed) {
-      const defaultDay = timesOperation.find(
-        (dataDay) => dataDay.weekDay == "default"
-      );
-
-      if (!defaultDay || !defaultDay.hours) {
-        return `Horário indisponível`;
-      }
-
-      hours = defaultDay.hours;
-    }
+    if (!hours || !hours.opened || !hours.closed) return `Horário indisponível`;
 
     const openedHour = new Date(`${dateCurrent}T${hours.opened}.000Z`);
     const closedHour = new Date(`${dateCurrent}T${hours.closed}.000Z`);
@@ -58,17 +48,7 @@ export function useTimesOperation(timesOperation) {
 
     const { hours } = dateFiltered;
 
-    if (!hours || !hours.opened || !hours.closed) {
-      const defaultDay = timesOperation.find(
-        (dataDay) => dataDay.weekDay == "default"
-      );
-
-      if (!defaultDay || !defaultDay.hours) {
-        return `Fechado`;
-      }
-
-      hours = defaultDay.hours;
-    }
+    if (!hours || !hours.opened || !hours.closed) return `Fechado`;
 
     const openedHour = new Date(`${dateCurrent}T${hours.opened}.000Z`);
     const closedHour = new Date(`${dateCurrent}T${hours.closed}.000Z`);

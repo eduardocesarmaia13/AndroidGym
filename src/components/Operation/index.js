@@ -27,8 +27,24 @@ export default function Operation({ navigation }) {
     hasDefault,
     setHasDefault,
   } = useCollpaseTimes();
-  const { timeToClockSelect, setForm, form } = useOperation();
-  const [timesOfClock, setTimesOfClock] = useState(timeToClockSelect());
+  const {
+    timeToClockSelect,
+    segunda,
+    setSegunda,
+    terca,
+    setTerca,
+    quarta,
+    setQuarta,
+    quinta,
+    setQuinta,
+    sexta,
+    setSexta,
+    sabado,
+    setSabado,
+    domingo,
+    setDomingo
+  } = useOperation();
+  const timesOfClock = timeToClockSelect();
 
   return (
     <View>
@@ -48,8 +64,11 @@ export default function Operation({ navigation }) {
                   style: styleLayout.select,
                 }}
                 label={"Início"}
+                value={segunda.abertura}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                setValue={(text) => {
+                  setSegunda({ ...segunda, abertura: text });
+                }}
               />
               <Select
                 select={{
@@ -57,8 +76,9 @@ export default function Operation({ navigation }) {
                 }}
                 style={styleLayout.selectGroup}
                 label={"Fim"}
+                value={segunda.termino}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                setValue={(text) => setSegunda({ ...segunda, termino: text })}
               />
             </View>
           </When>
@@ -78,7 +98,8 @@ export default function Operation({ navigation }) {
                 }}
                 label={"Início"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={terca.abertura}
+                setValue={(text) => setTerca({ ...terca, abertura: text })}
               />
               <Select
                 select={{
@@ -87,7 +108,8 @@ export default function Operation({ navigation }) {
                 style={styleLayout.selectGroup}
                 label={"Fim"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={terca.termino}
+                setValue={(text) => setTerca({ ...terca, termino: text })}
               />
             </View>
           </When>
@@ -107,7 +129,8 @@ export default function Operation({ navigation }) {
                 }}
                 label={"Início"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={quarta.abertura}
+                setValue={(text) => setQuarta({ ...quarta, abertura: text })}
               />
               <Select
                 select={{
@@ -116,7 +139,8 @@ export default function Operation({ navigation }) {
                 style={styleLayout.selectGroup}
                 label={"Fim"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={quarta.termino}
+                setValue={(text) => setQuarta({ ...quarta, termino: text })}
               />
             </View>
           </When>
@@ -136,7 +160,8 @@ export default function Operation({ navigation }) {
                 }}
                 label={"Início"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={quinta.abertura}
+                setValue={(text) => setQuinta({ ...quinta, abertura: text })}
               />
               <Select
                 select={{
@@ -145,7 +170,8 @@ export default function Operation({ navigation }) {
                 style={styleLayout.selectGroup}
                 label={"Fim"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={quinta.termino}
+                setValue={(text) => setQuinta({ ...quinta, termino: text })}
               />
             </View>
           </When>
@@ -165,7 +191,8 @@ export default function Operation({ navigation }) {
                 }}
                 label={"Início"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={sexta.abertura}
+                setValue={(text) => setSexta({ ...sexta, abertura: text })}
               />
               <Select
                 select={{
@@ -174,7 +201,8 @@ export default function Operation({ navigation }) {
                 style={styleLayout.selectGroup}
                 label={"Fim"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={sexta.termino}
+                setValue={(text) => setSexta({ ...sexta, termino: text })}
               />
             </View>
           </When>
@@ -194,7 +222,8 @@ export default function Operation({ navigation }) {
                 }}
                 label={"Início"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={sabado.abertura}
+                setValue={(text) => setSabado({ ...sabado, abertura: text })}
               />
               <Select
                 select={{
@@ -203,7 +232,8 @@ export default function Operation({ navigation }) {
                 style={styleLayout.selectGroup}
                 label={"Fim"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={sabado.termino}
+                setValue={(text) => setSabado({ ...sabado, termino: text })}
               />
             </View>
           </When>
@@ -223,7 +253,8 @@ export default function Operation({ navigation }) {
                 }}
                 label={"Início"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={domingo.abertura}
+                setValue={(text) => setDomingo({ ...domingo, abertura: text })}
               />
               <Select
                 select={{
@@ -232,36 +263,8 @@ export default function Operation({ navigation }) {
                 style={styleLayout.selectGroup}
                 label={"Fim"}
                 options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
-              />
-            </View>
-          </When>
-        </View>
-        <View style={styleLayout.content}>
-          <FormChecked
-            label="Padrão"
-            setValue={setHasDefault}
-            value={hasDefault}
-          />
-          <When isValid={hasDefault}>
-            <View style={styleLayout.groupTime}>
-              <Select
-                style={styleLayout.selectGroup}
-                select={{
-                  style: styleLayout.select,
-                }}
-                label={"Início"}
-                options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
-              />
-              <Select
-                select={{
-                  style: styleLayout.select,
-                }}
-                style={styleLayout.selectGroup}
-                label={"Fim"}
-                options={timesOfClock}
-                setValue={(text) => setForm({ ...form, sexo: text })}
+                value={domingo.termino}
+                setValue={(text) => setDomingo({ ...domingo, termino: text })}
               />
             </View>
           </When>

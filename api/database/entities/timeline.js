@@ -4,7 +4,7 @@ export function Timeline() {
   this.table = "timeline";
   this.attributes = {
     id: null,
-    day: null,
+    weekday: null,
     time_opened: null,
     time_closed: null,
     created_at: null,
@@ -22,12 +22,12 @@ export function Timeline() {
     this.attributes.id = id;
   };
 
-  this.getDay = () => {
-    return this.attributes.day;
+  this.getWeekday = () => {
+    return this.attributes.weekday;
   };
 
-  this.setDay = (day) => {
-    this.attributes.day = day;
+  this.setWeekday = (weekday) => {
+    this.attributes.weekday = weekday;
   };
 
   this.getTimeOpened = () => {

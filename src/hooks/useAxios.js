@@ -5,7 +5,7 @@ export function useAxios() {
     return axios.create({
       baseURL:
         process.env.NEXT_PUBLIC_BASE_INTERNAL_API_URL ??
-        "https://a428-2804-3d28-6-2eee-b1cb-ba61-a97c-a1a.ngrok-free.app/api",
+        "https://4b99-2804-3d28-6-e3f1-eddc-fc63-bbbc-c4b3.ngrok-free.app/api",
       headers: {
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",

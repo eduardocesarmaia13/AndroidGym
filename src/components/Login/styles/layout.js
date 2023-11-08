@@ -42,6 +42,6 @@ export const layoutStyles = StyleSheet.create({
     paddingTop: "12%",
     paddingLeft: "5%",
     paddingRight: "5%",
-    paddingBottom: "10%"
+    paddingBottom: "10%",
   }
 });

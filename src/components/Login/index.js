@@ -7,7 +7,7 @@ import { useLogin } from "./hooks/useLogin";
 import { Button } from "../shared/forms/Button";
 
 export default function Login() {
-  const { form, handleChangeEmail, handleChangePassword, handleSubmitAuth, isLoading } =
+  const { form, handleChangeEmail, handleChangePassword, handleSubmitAuth, isLoading, formHoverStyle } =
     useLogin();
 
   return (
@@ -18,7 +18,7 @@ export default function Login() {
           source={require("@public/images/logotype.png")}
         />
       </View>
-      <View style={layoutStyles.form}>
+      <View style={{...layoutStyles.form, ...formHoverStyle}}>
         {/* Input Container */}
         <View>
           <Text style={formStyles.title}>

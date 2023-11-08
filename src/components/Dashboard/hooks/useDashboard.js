@@ -3,13 +3,13 @@ import { useGetUser } from "../../../services/users/get";
 import { useState, useEffect } from "react";
 
 export function useDashboard() {
-  const { data, isFetching } = useGetUser();
+  const { data, isFetched } = useGetUser();
   const [users, setUsers] = useState([]);
   const { handleClearUser, handleStep, handleUser } = useNavigation();
 
   useEffect(() => {
     if (data) setUsers(data ?? []);
-  }, [isFetching]);
+  }, [isFetched]);
 
   const handleLoggout = async () => {
     await handleClearUser();

@@ -4,6 +4,7 @@ import Cadastro from "../../pages/Cadastro";
 import Funcionamento from "../../pages/Funcionamento";
 import Principal from "../../pages/Principal";
 import Perfil from "../../pages/Perfil";
+import Noticacao from "../../pages/Noticacao";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ export default function UserLoggedStack() {
       <Stack.Screen name="Funcionamento" component={Funcionamento} />
       <Stack.Screen name="Cadastro" component={Cadastro} />
       <Stack.Screen name="Perfil" component={Perfil} />
+      <Stack.Screen name="Notify" component={Noticacao} />
     </Stack.Navigator>
   );
 }
